@@ -2,10 +2,13 @@
 #include "../include/SQLiteBackend.h"
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QIcon>
+#include <QDir>
+#include <QCoreApplication>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
-    QWidget* centralWidget = new QWidget(this);
-    QVBoxLayout* layout = new QVBoxLayout(centralWidget);
+    auto* centralWidget = new QWidget(this);
+    auto* layout = new QVBoxLayout(centralWidget);
 
     dbTypeSelector = new QComboBox();
     dbTypeSelector->addItem("SQLite");
@@ -31,6 +34,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
     connect(connectBtn, &QPushButton::clicked, this, &MainWindow::handleConnect);
     connect(executeBtn, &QPushButton::clicked, this, &MainWindow::handleExecuteQuery);
+
+    setWindowIcon(QIcon(":/icon.ico"));
+
+    setWindowTitle("Universal Database Manager");
 }
 
 MainWindow::~MainWindow() {}
@@ -59,7 +66,6 @@ void MainWindow::handleExecuteQuery() {
 
     QString sql = queryInput->toPlainText();
     QSqlQuery result = dbBackend->executeRawCommand(sql);
-
-    // Podpinamy wyniki do tabeli w UI
-    queryModel->setQuery(result);
+    
+    queryModel->setQuery(std::move(result));
 }
