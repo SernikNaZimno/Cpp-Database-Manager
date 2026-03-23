@@ -7,7 +7,7 @@ SQLiteBackend::SQLiteBackend() {
 }
 
 SQLiteBackend::~SQLiteBackend() {
-    disconnectDatabase();
+    SQLiteBackend::disconnectDatabase();
 }
 
 bool SQLiteBackend::connectToDatabase(const QString& filepath) {
