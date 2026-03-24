@@ -30,7 +30,7 @@ QSqlQuery SQLiteBackend::executeRawCommand(const QString& command) {
     if (!query.exec(command)) {
         qDebug() << "Błąd wykonania zapytania:" << query.lastError().text();
     }
-    return query; // Zwracamy wynik, który Frontend podepnie pod widok tabeli
+    return query; // wynik, który Frontend podepnie pod widok tabeli
 }
 
 bool SQLiteBackend::createTable(const QString& tableName, const QString& schema) {
@@ -41,4 +41,17 @@ bool SQLiteBackend::createTable(const QString& tableName, const QString& schema)
 bool SQLiteBackend::dropTable(const QString& tableName) {
     QString sql = QString("DROP TABLE %1").arg(tableName);
     return executeRawCommand(sql).isActive();
+}
+
+QStringList SQLiteBackend::getTables() {
+    QStringList tables;
+    if (!db.isOpen()) return tables;
+
+    QSqlQuery query = executeRawCommand("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'");
+
+    while (query.next()) {
+        tables << query.value(0).toString();
+    }
+
+    return tables;
 }

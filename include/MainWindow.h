@@ -10,6 +10,8 @@
 #include <QSqlQueryModel>
 #include <memory>
 #include "IDatabaseBackend.h"
+#include <QTreeWidget>
+#include <QSplitter>
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -25,8 +27,15 @@ private:
     QPushButton* executeBtn;
     QTableView* resultView;
 
+    QTreeWidget* dbExplorer;
+
+    void refrehTableList();
+
 private slots:
     void handleConnect();
+
+    void refreshTableList() const;
+
     void handleExecuteQuery();
 
 public:

@@ -18,6 +18,7 @@ public:
     QSqlQuery executeRawCommand(const QString& command) override;
     bool createTable(const QString& tableName, const QString& schema) override;
     bool dropTable(const QString& tableName) override;
+    QStringList getTables() override;
 };
 
 #endif

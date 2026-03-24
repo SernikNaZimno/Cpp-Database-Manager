@@ -4,6 +4,7 @@
 #include <QString>
 #include <QVariantMap>
 #include <QSqlQuery>
+#include <QStringList>
 
 class IDatabaseBackend {
 public:
@@ -16,6 +17,8 @@ public:
 
     virtual bool createTable(const QString& tableName, const QString& schema) = 0;
     virtual bool dropTable(const QString& tableName) = 0;
+
+    virtual QStringList getTables() = 0;
 };
 
 #endif
